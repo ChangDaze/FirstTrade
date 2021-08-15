@@ -44,7 +44,7 @@ namespace FirstTrade_.Controllers
             List<int> Id = dball.Where(x => x.id <= a).Select(x => x.id).ToList();
             List<DateTime?> time = dball.Where(x => x.id <= a).Select(x => x.年月日).ToList();
             List<DateTime> time2 = time.Select(x => Convert.ToDateTime(x)).ToList();//Datetime?沒有string多載來做日期格式，所以強制轉型
-            List<string> time3 = time2.Select(x => x.ToString("d")).ToList();
+            List<string> time3 = time2.Select(x => x.ToString("M/dd")).ToList();
             List<double?> price = dball.Where(x => x.id <= a).Select(x => x.收盤價_元_).ToList();
 
 

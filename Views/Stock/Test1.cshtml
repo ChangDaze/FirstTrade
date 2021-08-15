@@ -13,14 +13,95 @@
 
 <h2>Test1</h2>
 
-<canvas id="LineChart"></canvas>
+<style>
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    .container {
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .site-main {
+        background-color: #fff;
+    }
+
+    .site-main-inner::after {
+        content: "";
+        display: block; /**必要**/
+        clear: both;
+    }
+
+    .content {
+        height: 400px;
+        width: 70%;
+        background-color: #ddd;
+        float: left;
+    }
+
+    .sidebar {
+        height: 400px;
+        width: 30%;
+        background-color: #ccc;
+        float: right;
+    }
+</style>
+
+<div class="container site-main">
+
+    <div class="site-main-inner">
+
+        <div class="chart-container" style="position: relative; height:0vh; width:65vw">
+            <!--外面的height調距離，width調寬度-->
+            <canvas id="LineChart" style="height:400px; width:100%"></canvas><!--裡面的height調高度，width調??-->
+        </div>
+
+        <div class="sidebar">
+            <table>
+                <tr>
+                    <td>資金:</td>
+                    <td><input type="number" name="Money" value=1000000 readonly/></td>
+                </tr>
+                <tr>
+                    <td>損益:</td>
+                    <td><input type="number" name="Profit" value=0 readonly /></td>
+                </tr>
+            </table>
+            <form method="post" action="">
+                <table>
+                    <tr>
+                        <td>幾天後:</td>
+                        <td><input type="text" name="Name"></td>
+                    </tr>
+                    <tr>
+                        <td>目前天數:</td>
+                        <td><input type="text" name="Total" value="@ViewBag.Total" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" name="Search" /></td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
 
 <script>
     var jsErrDev = @Html.Raw(jsonErrDev);
     var ctx = document.getElementById("LineChart");
     var chart = new Chart(ctx, {
         type: 'line',
-        data: {            
+        data: {
             labels:@Html.Raw(jsonTime3),
             datasets: [{
                 label: jsErrDev[0].dev,
@@ -31,7 +112,7 @@
             responsive: true,
             title: {
                 display: true,
-                fontSize: 26,
+                fontSize: 20,
                 text: 'Min and Max Settings'
                 },
             scales: {
@@ -67,26 +148,5 @@
     );
 </script>
 
-<div class="panel panel-default">
-    <div class="panel-heading">查詢</div>
-    <div class="panel-body">
-        <form method="post" action="">
-            <table>
-                <tr>
-                    <td>幾天後:</td>
-                    <td><input type="text" name="Name"></td>
-                </tr>
-                <tr>
-                    <td>目前天數:</td>
-                    <td><input type="text" name="Total" value="@ViewBag.Total" readonly /></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><input type="submit" name="Search" /></td>
-                </tr>
-            </table>
-        </form>
 
-    </div>
-</div>
 
