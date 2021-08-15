@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -42,11 +43,13 @@ namespace FirstTrade_.Controllers
             var dball = db.stockprices.ToList();
             List<int> Id = dball.Where(x => x.id <= a).Select(x => x.id).ToList();
             List<DateTime?> time = dball.Where(x => x.id <= a).Select(x => x.年月日).ToList();
+            List<DateTime> time2 = time.Select(x => Convert.ToDateTime(x)).ToList();//Datetime?沒有string多載來做日期格式，所以強制轉型
+            List<string> time3 = time2.Select(x => x.ToString("d")).ToList();
             List<double?> price = dball.Where(x => x.id <= a).Select(x => x.收盤價_元_).ToList();
 
 
-            //ViewBag.MonthLabel = time;
-            ViewBag.MonthLabel = Id;
+            ViewBag.Id = Id;
+            ViewBag.Time3 = time3;
             ViewBag.Criteria = inject;
             ViewBag.Total = a;
 

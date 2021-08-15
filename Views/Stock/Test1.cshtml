@@ -5,7 +5,8 @@
 
 @{
     ViewBag.Title = "Test1";
-    var jsonMonths = Json.Encode(ViewBag.MonthLabel);
+    var jsonId = Json.Encode(ViewBag.Id);
+    var jsonTime3 = Json.Encode(ViewBag.Time3);//好像都要轉成Json才能在Chart裡面用
     var jsonErrDev = Json.Encode(Model);
     var criteria = ViewBag.Criteria as RegistersCriteria;
 }
@@ -19,9 +20,8 @@
     var ctx = document.getElementById("LineChart");
     var chart = new Chart(ctx, {
         type: 'line',
-        data: {
-            @*labels:@Html.Raw(jsonMonths),*@
-            labels:@Html.Raw(jsonMonths),
+        data: {            
+            labels:@Html.Raw(jsonTime3),
             datasets: [{
                 label: jsErrDev[0].dev,
                 data: jsErrDev[0].price,
@@ -66,25 +66,6 @@
     }
     );
 </script>
-
-@*
-    <form method="get">
-        <div class="row" style="padding-left:15px;">
-            <div class="col-md-12">
-                <div class="caption">
-                    <h3>Search</h3>
-                    <div class="row">
-                        <div class="criteriaName">幾天後:<input type="text" name="Name" class="form-control" value="@criteria.Name"> </div>
-                        <div class="criteriaTotal">目前天數:<input type="text" name="Day" class="form-control" value="@criteria.Total"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 10px; margin-bottom: 20px; padding-left: 15px;">
-            <input type="submit" class="btn btn-primary" value="Search" />
-        </div>
-    </form>
-*@
 
 <div class="panel panel-default">
     <div class="panel-heading">查詢</div>
