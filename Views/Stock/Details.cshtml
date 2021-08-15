@@ -1,0 +1,34 @@
+﻿@model FirstTrade_.Models.EFModels.stockprice
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>stockprice</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.年月日)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.年月日)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.收盤價_元_)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.收盤價_元_)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

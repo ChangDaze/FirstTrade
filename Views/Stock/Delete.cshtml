@@ -1,0 +1,40 @@
+﻿@model FirstTrade_.Models.EFModels.stockprice
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>stockprice</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.年月日)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.年月日)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.收盤價_元_)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.收盤價_元_)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
