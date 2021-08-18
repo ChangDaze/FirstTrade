@@ -11,8 +11,8 @@ namespace FirstTrade_.Models.EFModels
     {
         public int id { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime? 年月日 { get; set; }
+        [StringLength(50)]
+        public string 年月日 { get; set; }
 
         [Column("收盤價(元)")]
         public double? 收盤價_元_ { get; set; }

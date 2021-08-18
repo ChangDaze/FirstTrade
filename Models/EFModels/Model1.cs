@@ -1,4 +1,4 @@
-namespace FirstTrade_.Models.EFModels
+﻿namespace FirstTrade_.Models.EFModels
 {
     using System;
     using System.Data.Entity;
@@ -17,6 +17,9 @@ namespace FirstTrade_.Models.EFModels
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<stockprice>()
+                .Property(e => e.年月日)
+                .IsUnicode(false);
         }
     }
 }

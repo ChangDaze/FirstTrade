@@ -22,10 +22,21 @@ namespace FirstTrade_.Controllers
             return View(db.stockprices.ToList());
         }
 
-        public ActionResult Test1(RegistersCriteria inject, CashRelateVM injectmoney)
+        public ActionResult Test1(RegistersCriteria inject, CashRelateVM injectmoney, DateTime? Date123 )
         {
             #region 日期
+            
             int a;
+            if (Date123!=null)
+            {
+                int sd = 0;
+                DateTime Date = Convert.ToDateTime(Date123);
+                string SDate = Date.ToString("yyyy-MM-dd");
+                List<stockprice> tempd = db.stockprices.Where(x => x.年月日 == SDate).ToList();//問助教好了
+                stockprice StartDate = tempd[0];
+                sd = StartDate.id;
+                inject.StartDate = sd;
+            }
             if (inject.Total > 0)
             {
                 if (inject.Name > 0)
@@ -42,17 +53,16 @@ namespace FirstTrade_.Controllers
                 a = 10;
             }
             var dball = db.stockprices.ToList();
-            List<int> Id = dball.Where(x => x.id <= a).Select(x => x.id).ToList();
-            List<DateTime?> time = dball.Where(x => x.id <= a).Select(x => x.年月日).ToList();
-            List<DateTime> time2 = time.Select(x => Convert.ToDateTime(x)).ToList();//Datetime?沒有string多載來做日期格式，所以強制轉型
+            List<int> Id = dball.Where(x => x.id <= inject.StartDate + a && x.id>= inject.StartDate).Select(x => x.id).ToList();
+            //List<DateTime?> time = dball.Where(x => x.id <= a).Select(x => x.年月日).ToList();
+            List<string> test = dball.Where(x => x.id <= inject.StartDate + a && x.id >= inject.StartDate).Select(x => x.年月日).ToList();
+            List<DateTime> time2 = dball.Where(x => x.id <= inject.StartDate + a && x.id >= inject.StartDate).Select(x => Convert.ToDateTime(x.年月日)).ToList();//Datetime?沒有string多載來做日期格式，所以強制轉型
             List<string> time3 = time2.Select(x => x.ToString("M/dd")).ToList();
-            List<double?> price = dball.Where(x => x.id <= a).Select(x => x.收盤價_元_).ToList();
+            List<double?> price = dball.Where(x => x.id <= inject.StartDate + a && x.id >= inject.StartDate).Select(x => x.收盤價_元_).ToList();
 
-
-            ViewBag.Id = Id;
             ViewBag.Time3 = time3;
-            ViewBag.Criteria = inject;
             ViewBag.Total = a;
+            ViewBag.StartDate = inject.StartDate;
 
             List<StockVM2> combine = new List<StockVM2>
             {
@@ -148,6 +158,16 @@ namespace FirstTrade_.Controllers
             #endregion
             return View(combine);
 
+        }
+        [HttpPost]
+        public ActionResult Test2(DateTime Date)
+        {
+            ViewBag.Date = Date;
+            string SDate = Date.ToString("yyyy-MM-dd");            
+            List<stockprice> tempd = db.stockprices.Where(x => x.年月日 == SDate).ToList();//問助教好了
+            stockprice StartDate = tempd[0];
+
+            return View();
         }
 
         // GET: Stock/Details/5

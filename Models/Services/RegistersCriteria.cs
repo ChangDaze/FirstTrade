@@ -9,6 +9,7 @@ namespace FirstTrade_.Models.Services
     {
         public int Name { get; set; }
         public int Total { get; set; }
+        public int StartDate { get; set; }
     }
     public class StockVM2
     {
