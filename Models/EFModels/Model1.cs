@@ -12,6 +12,7 @@ namespace FirstTrade_.Models.EFModels
         {
         }
 
+        public virtual DbSet<customer> customers { get; set; }
         public virtual DbSet<stockprice> stockprices { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

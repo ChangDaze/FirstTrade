@@ -22,8 +22,9 @@ namespace FirstTrade_.Controllers
             return View(db.stockprices.ToList());
         }
 
-        public ActionResult Test1(RegistersCriteria inject)
+        public ActionResult Test1(RegistersCriteria inject, CashRelateVM injectmoney)
         {
+            #region 日期
             int a;
             if (inject.Total > 0)
             {
@@ -69,7 +70,82 @@ namespace FirstTrade_.Controllers
             combine[0].UpL = combine[0].price.Max();
             combine[0].DownL = combine[0].price.Min();
             combine[0].count = a;
+            #endregion
+            customer customer;
+            #region 錢錢
+            if (injectmoney.Cash > 0)//有資料
+            {
+                customer = db.customers.Find(injectmoney.Cid);
+                if(customer.Position>0)//檢查部位
+                {
+                    customer.Profit = Convert.ToInt32(price[price.Count() - 1]*1000) - customer.BuyCost;
+                }
+                else if(customer.Position < 0)
+                {
+                    customer.Profit = customer.BuyCost-Convert.ToInt32(price[price.Count() - 1] * 1000) ;
 
+                }
+                if (injectmoney.Status == 1)//檢查策略
+                {
+                    if (customer.Position >= 0)//做多開倉
+                    {
+                        
+                        customer.Position += 1;
+                        customer.Status = 0;
+                        customer.BuyCost = Convert.ToInt32(price[price.Count() - 1]*1000);//索引是從0開始所以要-1
+                        customer.Cash -= customer.BuyCost;
+                    }
+                    else//放空平倉
+                    {
+                        customer.Position += 1;
+                        customer.Status = 0;
+                        customer.BuyCost = null;
+                        customer.Cash += injectmoney.BuyCost + customer.Profit;
+                        customer.Profit = null;
+                    }
+
+                }
+                else if(injectmoney.Status == -1)
+                {
+                    if(customer.Position <= 0)//做空開倉
+                    {
+                        
+                        customer.Position -= 1;
+                        customer.Status = 0;
+                        customer.BuyCost = Convert.ToInt32(price[price.Count() - 1]*1000);
+                        customer.Cash -= customer.BuyCost;
+                    }
+                    else//做多平倉
+                    {
+                        customer.Position -= 1;
+                        customer.Status = 0;
+                        customer.BuyCost = null;
+                        customer.Cash += Convert.ToInt32(price[price.Count() - 1] * 1000);
+                        customer.Profit = null;
+                    }
+
+                }
+               
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else//沒資料
+            {
+                db.customers.Add(new customer { Cash = 100000,Position=0,Profit=0,Status = 0});
+                db.SaveChanges();
+                int id = db.customers.Select(x=>x.id).Max();
+                customer = db.customers.Find(id);
+
+            }
+
+            ViewBag.Cid = customer.id;
+            ViewBag.Cash = customer.Cash;
+            ViewBag.Position = customer.Position;
+            ViewBag.Profit = customer.Profit;
+            ViewBag.Status = customer.Status;
+            ViewBag.BuyCost = customer.BuyCost;
+
+            #endregion
             return View(combine);
 
         }
