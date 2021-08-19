@@ -14,10 +14,15 @@
 
         public virtual DbSet<customer> customers { get; set; }
         public virtual DbSet<stockprice> stockprices { get; set; }
+        public virtual DbSet<stockprice2> stockprice2 { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<stockprice>()
+                .Property(e => e.年月日)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<stockprice2>()
                 .Property(e => e.年月日)
                 .IsUnicode(false);
         }

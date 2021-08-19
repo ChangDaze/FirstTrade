@@ -95,6 +95,10 @@ namespace FirstTrade_.Controllers
                     customer.Profit = customer.BuyCost-Convert.ToInt32(price[price.Count() - 1] * 1000) ;
 
                 }
+                else
+                {
+                    customer.Profit = 0;
+                }
                 if (injectmoney.Status == 1)//檢查策略
                 {
                     if (customer.Position >= 0)//做多開倉
@@ -111,7 +115,7 @@ namespace FirstTrade_.Controllers
                         customer.Status = 0;
                         customer.BuyCost = null;
                         customer.Cash += injectmoney.BuyCost + customer.Profit;
-                        customer.Profit = null;
+                        //customer.Profit = null;
                     }
 
                 }
@@ -131,7 +135,7 @@ namespace FirstTrade_.Controllers
                         customer.Status = 0;
                         customer.BuyCost = null;
                         customer.Cash += Convert.ToInt32(price[price.Count() - 1] * 1000);
-                        customer.Profit = null;
+                        //customer.Profit = null;
                     }
 
                 }
@@ -159,16 +163,12 @@ namespace FirstTrade_.Controllers
             return View(combine);
 
         }
-        [HttpPost]
-        public ActionResult Test2(DateTime Date)
+        
+        public ActionResult Test2()
         {
-            ViewBag.Date = Date;
-            string SDate = Date.ToString("yyyy-MM-dd");            
-            List<stockprice> tempd = db.stockprices.Where(x => x.年月日 == SDate).ToList();//問助教好了
-            stockprice StartDate = tempd[0];
-
             return View();
         }
+
 
         // GET: Stock/Details/5
         public ActionResult Details(int? id)

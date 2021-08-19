@@ -137,7 +137,7 @@
     <Compile Include="Models\EFModels\customer.cs" />
     <Compile Include="Models\EFModels\Model1.cs" />
     <Compile Include="Models\EFModels\stockprice.cs" />
-    <Compile Include="Models\Services\CashServices.cs" />
+    <Compile Include="Models\EFModels\stockprice2.cs" />
     <Compile Include="Models\ViewModels\CashRelateVM.cs" />
     <Compile Include="Models\Services\RegistersCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
